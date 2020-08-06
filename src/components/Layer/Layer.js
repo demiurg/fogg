@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uniqueId } from 'lodash';
 import { TileLayer, GeoJSON } from 'react-leaflet';
+import VectorGrid from 'react-leaflet-vectorgrid';
 import moment from 'moment';
 
 const getKey = (layerKey) => {
@@ -17,6 +18,12 @@ const Layer = ({ layer = {}, layerKey, activeDateRange }) => {
       throw new Error(`Layer error: can not find service ${layer.serviceName}`);
     }
     return <TileLayer {...layer.service} />;
+  }
+  if (type === 'vectorgrid') {
+    if (!layer.service) {
+      throw new Error(`Layer error: can not find service ${layer.serviceName}`);
+    }
+    return <VectorGrid {...layer.service} />;
   }
   if (type === 'data') {
     if (data.type === 'geojson' && !!Object.keys(data.data).length) {
